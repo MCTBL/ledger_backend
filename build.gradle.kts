@@ -31,6 +31,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5")
 	implementation("org.springframework.cloud:spring-cloud-starter-gateway-server-webmvc")
+	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("io.jsonwebtoken:jjwt:0.12.6")
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("com.mysql:mysql-connector-j")
