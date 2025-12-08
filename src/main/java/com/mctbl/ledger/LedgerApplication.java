@@ -12,8 +12,8 @@ public class LedgerApplication {
 	
 	public static void main(String[] args) {
 		ConfigurableApplicationContext run = SpringApplication.run(LedgerApplication.class, args);
-		JWTConfig bean = run.getBean(JWTConfig.class);
-		System.out.println(bean.secret);
+//		JWTConfig bean = run.getBean(JWTConfig.class);
+//		System.out.println(bean.secret);
 	}
 	
 }
