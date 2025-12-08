@@ -15,15 +15,15 @@ import io.jsonwebtoken.*;
 @RestController
 @RequestMapping("/api")
 public class HelloController {
-	
+
 	@Autowired
 	public JWTConfig jwt;
-	
+
 	@GetMapping("/hello")
 	public String getHello() {
 		return "<h1>Hello World!</h1>";
 	}
-	
+
 	private static final String template = "Hello, %s!";
 	private final AtomicLong counter = new AtomicLong();
 
@@ -31,10 +31,10 @@ public class HelloController {
 	public Greeting greeting(@RequestParam(name="name", defaultValue = "world") String name) {
 		return new Greeting(counter.incrementAndGet(), String.format(template, name));
 	}
-	
+
 	@GetMapping("/secret")
 	public String secret() {
 		return String.format("<h1>%s</h1>", jwt.secret);
 	}
-	
+
 }
