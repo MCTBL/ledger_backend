@@ -5,6 +5,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JWTConfig {
-    @Value("${secret}")
-    public String secret;
+//    @Value("${secret}")
+//    public String secret;
 }

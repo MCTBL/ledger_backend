@@ -32,9 +32,4 @@ public class HelloController {
 		return new Greeting(counter.incrementAndGet(), String.format(template, name));
 	}
 
-	@GetMapping("/secret")
-	public String secret() {
-		return String.format("<h1>%s</h1>", jwt.secret);
-	}
-
 }
