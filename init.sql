@@ -3,25 +3,47 @@ CREATE DATABASE ledger_db;
 
 USE ledger_db;
 
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password_hash VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE `users` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `username` VARCHAR(50) NOT NULL UNIQUE,
+    `password_hash` VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE bill (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    amount DECIMAL(10, 2) NOT NULL,
-    category_id INT NOT NULL,
-    bill_date DATE NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    -- FOREIGN KEY (user_id) REFERENCES users(id)
-)
-
-CREATE TABLE category (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    category_name VARCHAR(32) NOT NULL,
-    category_description VARCHAR(32) NULL
+CREATE TABLE `bill` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT NOT NULL,
+    `category_id` INT NOT NULL,
+    `amount` DECIMAL(10, 2) NOT NULL,
+    `bill_date` TIMESTAMP NOT NULL,
+    `bill_description` VARCHAR(255) NULL,
 );
+
+CREATE TABLE `category` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `category_name` VARCHAR(32) NOT NULL,
+    `category_description` VARCHAR(32) NULL
+);
+
+INSERT INTO `users` VALUES(NULL, "MCTBL", "1");
+
+INSERT INTO `category` values(NULL,"游戏","买游戏");
+INSERT INTO `category` values(NULL,"美食","吃饭");
+INSERT INTO `category` values(NULL,"交通","坐车");
+
+INSERT INTO `bill` values(NULL,1,1,99.00,"2025-12-01 12:00:00","买了个游戏");
+INSERT INTO `bill` values(NULL,1,2,20.00,"2025-12-01 18:00:00","吃饭");
+INSERT INTO `bill` values(NULL,1,3,15.00,"2025-12-02 08:00:00","坐车");
+INSERT INTO `bill` values(NULL,1,2,30.00,"2025-12-02 13:00:00","吃饭");
+INSERT INTO `bill` values(NULL,1,1,199.00,"2025-12-03 20:00:00","买了个大游戏");
+INSERT INTO `bill` values(NULL,1,3,10.00,"2025-12-03 09:00:00","坐车");
+INSERT INTO `bill` values(NULL,1,2,25.00,"2025-12-04 12:30:00","吃饭");
+INSERT INTO `bill` values(NULL,1,3,12.00,"2025-12-04 19:00:00","坐车");
+INSERT INTO `bill` values(NULL,1,1,49.00,"2025-12-05 14:00:00","买了个小游戏");
+INSERT INTO `bill` values(NULL,1,2,18.00,"2025-12-05 08:00:00","吃饭");
+INSERT INTO `bill` values(NULL,1,3,8.00,"2025-12-06 17:00:00","坐车");
+INSERT INTO `bill` values(NULL,1,2,22.00,"2025-12-06 11:00:00","吃饭");
+INSERT INTO `bill` values(NULL,1,1,299.00,"2025-12-07 16:00:00","买了个超大游戏");
+INSERT INTO `bill` values(NULL,1,3,14.00,"2025-12-07 10:00:00","坐车");
+INSERT INTO `bill` values(NULL,1,2,28.00,"2025-12-08 15:00:00","吃饭");
+INSERT INTO `bill` values(NULL,1,3,11.00,"2025-12-08 09:00:00","坐车");
+INSERT INTO `bill` values(NULL,1,1,79.00,"2025-12-09 18:30:00","买了个中等游戏");
