@@ -16,9 +16,6 @@ import io.jsonwebtoken.*;
 @RequestMapping("/api")
 public class HelloController {
 
-	@Autowired
-	public JWTConfig jwt;
-
 	@GetMapping("/hello")
 	public String getHello() {
 		return "<h1>Hello World!</h1>";
