@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
@@ -15,10 +16,10 @@ import lombok.NoArgsConstructor;
 public class Bill {
 
 	int id;
-	int user_id;
-	int category_id;
+	int userId;
+	int categoryId;
 	BigDecimal amount;
-	Timestamp bill_date;
-	String bill_description;
+	Timestamp billDate;
+	String billDescription;
 	
 }

@@ -5,8 +5,9 @@ USE ledger_db;
 
 CREATE TABLE `users` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
-    `username` VARCHAR(50) NOT NULL UNIQUE,
-    `password_hash` VARCHAR(255) NOT NULL
+    `user_name` VARCHAR(50) NOT NULL UNIQUE,
+    `password_hash` VARCHAR(255) NOT NULL,
+    `role` INT NOT NULL
 );
 
 CREATE TABLE `bill` (
@@ -24,7 +25,7 @@ CREATE TABLE `category` (
     `category_description` VARCHAR(32) NULL
 );
 
-INSERT INTO `users` VALUES(NULL, "MCTBL", "1");
+INSERT INTO `users` VALUES(NULL, "MCTBL", "1", 1);
 
 INSERT INTO `category` VALUES(NULL,"游戏","买游戏");
 INSERT INTO `category` VALUES(NULL,"美食","吃饭");

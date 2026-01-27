@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 public class Users {
 	
 	int id;
-	String username;
-	String password_hash;
+	String userName;
+	String passwordHash;
+	int role;
 	
 }

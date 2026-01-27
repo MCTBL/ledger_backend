@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class Category {
 	
 	int id;
-	String category_name;
-	String category_description;
+	String categoryName;
+	String categoryDescription;
 	
 }
