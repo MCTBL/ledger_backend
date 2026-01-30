@@ -24,4 +24,8 @@ public class CategoryService {
 		return cm.getAllCategory().stream().collect(Collectors.toMap(Category::getId, c -> c));
 	}
 	
+	public Map<String, Category> getNameCategoryMap(){
+		return cm.getAllCategory().stream().collect(Collectors.toMap(Category::getCategoryName, c -> c));
+	}
+	
 }

@@ -10,12 +10,16 @@ import com.mctbl.ledger.mapper.BillMapper;
 
 @Service
 public class BillService {
-	
+
 	@Autowired
 	private BillMapper bm;
 
-	public List<Bill> getAllBill(){
-		return bm.getAllBill();
+	public List<Bill> getAllBills() {
+		return bm.getAllBills();
 	}
-	
+
+	public List<Bill> getOneUserAllBills(Integer userId, Integer categoryId) {
+		return bm.getUserBills(userId, categoryId);
+	}
+
 }

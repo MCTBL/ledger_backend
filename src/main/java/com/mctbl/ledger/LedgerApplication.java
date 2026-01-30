@@ -16,12 +16,12 @@ public class LedgerApplication {
 
 	public static void main(String[] args) {
 		ConfigurableApplicationContext run = SpringApplication.run(LedgerApplication.class, args);
-		UsersService us = run.getBean(UsersService.class);
-		System.out.println(us.getAllUsers());
+//		UsersService us = run.getBean(UsersService.class);
+//		System.out.println(us.getAllUsers());
 		BillService bs = run.getBean(BillService.class);
-		System.out.println(bs.getAllBill());
-		CategoryService cs = run.getBean(CategoryService.class);
-		System.out.println(cs.getIdCategoryMap());
+		System.out.println(bs.getOneUserAllBills(1, null));
+//		CategoryService cs = run.getBean(CategoryService.class);
+//		System.out.println(cs.getIdCategoryMap());
 	}
 
 }

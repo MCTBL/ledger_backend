@@ -1,6 +1,8 @@
 package com.mctbl.ledger.service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,14 @@ public class UsersService {
 	
 	public List<Users> getAllUsers(){
 		return um.getAllUsers();
+	}
+	
+	public Map<Integer, Users> getIdUsersMap(){
+		return um.getAllUsers().stream().collect(Collectors.toMap(Users::getId, c->c));
+	}
+	
+	public Map<String, Users> getNameUsersMap(){
+		return um.getAllUsers().stream().collect(Collectors.toMap(Users::getUserName, c->c));
 	}
 	
 }
