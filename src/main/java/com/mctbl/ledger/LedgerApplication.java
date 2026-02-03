@@ -19,7 +19,7 @@ public class LedgerApplication {
 //		UsersService us = run.getBean(UsersService.class);
 //		System.out.println(us.getAllUsers());
 		BillService bs = run.getBean(BillService.class);
-		System.out.println(bs.getOneUserAllBills(1, null));
+		System.out.println(bs.getOneUserAllBillsWithYearAndMonth(1, 1, 2024, null));
 //		CategoryService cs = run.getBean(CategoryService.class);
 //		System.out.println(cs.getIdCategoryMap());
 	}

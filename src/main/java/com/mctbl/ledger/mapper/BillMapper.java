@@ -12,6 +12,9 @@ public interface BillMapper {
 	@Select("SELECT * from `bill`")
 	List<Bill> getAllBills();
 
-	List<Bill> getUserBills(@Param("userId") Integer userId, @Param("categoryId") Integer categoryId);
+	List<Bill> getUserBills(@Param("userId") Integer userId,
+			@Param("categoryId") Integer categoryId,
+			@Param("year") Integer year,
+			@Param("month") Integer month);
 
 }

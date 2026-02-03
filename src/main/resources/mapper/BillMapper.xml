@@ -10,9 +10,15 @@
         FROM `bill`
         WHERE user_id = #{userId}
         <if test="categoryId != null">
-            AND category_id = #{categoryId}
+            AND `category_id` = #{categoryId}
         </if>
-        ORDER BY `bill_date` DESC
+        <if test="year != null">
+        	AND YEAR(`bill_date`) = #{year}
+        </if>
+        <if test="month != null">
+        	AND MONTH(`bill_date`) = #{month}
+        </if>
+        ORDER BY `bill_date`
     </select>
 
 </mapper>

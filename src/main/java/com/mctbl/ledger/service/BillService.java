@@ -17,9 +17,10 @@ public class BillService {
 	public List<Bill> getAllBills() {
 		return bm.getAllBills();
 	}
-
-	public List<Bill> getOneUserAllBills(Integer userId, Integer categoryId) {
-		return bm.getUserBills(userId, categoryId);
+	
+//	getOneUserAllBillsWithYearAndMonth
+	public List<Bill> getOneUserAllBillsWithYearAndMonth(Integer userId, Integer categoryId, Integer year, Integer month) {
+		return bm.getUserBills(userId, categoryId, year, month);
 	}
 
 }
