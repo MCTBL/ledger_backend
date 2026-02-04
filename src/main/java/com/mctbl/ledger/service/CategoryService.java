@@ -12,20 +12,20 @@ import com.mctbl.ledger.mapper.CategoryMapper;
 
 @Service
 public class CategoryService {
-	
+
 	@Autowired
 	private CategoryMapper cm;
-	
+
 	public List<Category> getAllCategory(){
 		return cm.getAllCategory();
 	}
-	
+
 	public Map<Integer, Category> getIdCategoryMap(){
 		return cm.getAllCategory().stream().collect(Collectors.toMap(Category::getId, c -> c));
 	}
-	
+
 	public Map<String, Category> getNameCategoryMap(){
 		return cm.getAllCategory().stream().collect(Collectors.toMap(Category::getCategoryName, c -> c));
 	}
-	
+
 }

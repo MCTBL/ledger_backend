@@ -15,17 +15,17 @@ public class UsersService {
 
 	@Autowired
 	private UsersMapper um;
-	
+
 	public List<Users> getAllUsers(){
 		return um.getAllUsers();
 	}
-	
+
 	public Map<Integer, Users> getIdUsersMap(){
 		return um.getAllUsers().stream().collect(Collectors.toMap(Users::getId, c->c));
 	}
-	
+
 	public Map<String, Users> getNameUsersMap(){
 		return um.getAllUsers().stream().collect(Collectors.toMap(Users::getUserName, c->c));
 	}
-	
+
 }

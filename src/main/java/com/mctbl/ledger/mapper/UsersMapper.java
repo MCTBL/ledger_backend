@@ -7,8 +7,8 @@ import org.apache.ibatis.annotations.Select;
 import com.mctbl.ledger.bean.Users;
 
 public interface UsersMapper {
-	
+
 	@Select("SELECT * from `users`")
 	List<Users> getAllUsers();
-	
+
 }

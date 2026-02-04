@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Users {
-	
+
 	int id;
 	String userName;
 	String passwordHash;
 	int role;
-	
+
 }

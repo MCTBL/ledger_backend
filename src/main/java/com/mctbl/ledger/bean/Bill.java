@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Data
 @NoArgsConstructor
@@ -21,5 +20,5 @@ public class Bill {
 	BigDecimal amount;
 	Timestamp billDate;
 	String billDescription;
-	
+
 }

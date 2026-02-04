@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Category {
-	
+
 	int id;
 	String categoryName;
 	String categoryDescription;
-	
+
 }
