@@ -18,7 +18,6 @@ public class BillService {
 		return bm.getAllBills();
 	}
 
-//	getOneUserAllBillsWithYearAndMonth
 	public List<Bill> getOneUserAllBillsWithYearAndMonth(Integer userId, Integer categoryId, Integer year, Integer month) {
 		return bm.getUserBills(userId, categoryId, year, month);
 	}

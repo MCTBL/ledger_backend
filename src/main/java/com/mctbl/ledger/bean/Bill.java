@@ -2,6 +2,8 @@ package com.mctbl.ledger.bean;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.time.format.DateTimeFormatter;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,5 +22,9 @@ public class Bill {
 	BigDecimal amount;
 	Timestamp billDate;
 	String billDescription;
+	
+	public String getBillYMD() {
+		return this.billDate.toLocalDateTime().toLocalDate().format(DateTimeFormatter.ISO_LOCAL_DATE);
+	}
 
 }
