@@ -1,6 +1,5 @@
 package com.mctbl.ledger.controller;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,21 +34,19 @@ public class PieReportsController {
 		Map<Integer, Category> idCategoryMap = cs.getIdCategoryMap();
 		Map<String, List<Bill>> dateBillMap = oneUserAllBillsWithYearAndMonth.stream()
 				.collect(Collectors.groupingBy(Bill::getBillYMD));
-
 		Map<String, Map<String, Object>> dateMap = dateBillMap.entrySet().stream()
 				.collect(Collectors.toMap(s -> s.getKey(),
 						s -> s.getValue().stream()
 								.collect(Collectors.toMap(b -> idCategoryMap.get(b.getCategoryId()).getCategoryName(),
 										b -> b.getAmount().doubleValue(),
 										(oldAmount, newAmount) -> (double) oldAmount + (double) newAmount))));
+		List<String> categoryNameList = oneUserAllBillsWithYearAndMonth.stream().map(Bill::getCategoryId).distinct().map(id->idCategoryMap.get(id).getCategoryName()).collect(Collectors.toList());
+		List<String> dateList = oneUserAllBillsWithYearAndMonth.stream().map(Bill::getBillYMD).distinct().sorted().collect(Collectors.toList());
 
 		HashMap<String, Object> returnData = new HashMap<String, Object>();
-
-		List<String> categoryNameList = oneUserAllBillsWithYearAndMonth.stream().map(Bill::getCategoryId).distinct().map(id->idCategoryMap.get(id).getCategoryName()).collect(Collectors.toList());
-
 		returnData.put("dateMap", dateMap);
 		returnData.put("categoryNameList", categoryNameList);
-		
+		returnData.put("dateList", dateList);
 
 		return Result.success(returnData);
 	}

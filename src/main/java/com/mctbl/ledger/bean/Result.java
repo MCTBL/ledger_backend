@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Result<T> {
-    
+
     private Integer code;
     private String message;
     private T data;
     private Long timestamp;
-    
+
     public static <T> Result<T> success(T data) {
         return Result.<T>builder()
             .code(200)
@@ -24,11 +24,11 @@ public class Result<T> {
             .timestamp(System.currentTimeMillis())
             .build();
     }
-    
+
     public static <T> Result<T> success() {
         return success(null);
     }
-    
+
     public static <T> Result<T> error(Integer code, String message) {
         return Result.<T>builder()
             .code(code)
@@ -36,7 +36,7 @@ public class Result<T> {
             .timestamp(System.currentTimeMillis())
             .build();
     }
-    
+
     public static <T> Result<T> error(String message) {
         return error(500, message);
     }
