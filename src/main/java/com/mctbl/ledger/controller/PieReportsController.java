@@ -40,13 +40,12 @@ public class PieReportsController {
 								.collect(Collectors.toMap(b -> idCategoryMap.get(b.getCategoryId()).getCategoryName(),
 										b -> b.getAmount().doubleValue(),
 										(oldAmount, newAmount) -> (double) oldAmount + (double) newAmount))));
-		List<String> categoryNameList = oneUserAllBillsWithYearAndMonth.stream().map(Bill::getCategoryId).distinct().map(id->idCategoryMap.get(id).getCategoryName()).collect(Collectors.toList());
-		List<String> dateList = oneUserAllBillsWithYearAndMonth.stream().map(Bill::getBillYMD).distinct().sorted().collect(Collectors.toList());
+		List<String> categoryNameList = oneUserAllBillsWithYearAndMonth.stream().map(Bill::getCategoryId).distinct()
+				.map(id -> idCategoryMap.get(id).getCategoryName()).collect(Collectors.toList());
 
 		HashMap<String, Object> returnData = new HashMap<String, Object>();
 		returnData.put("dateMap", dateMap);
 		returnData.put("categoryNameList", categoryNameList);
-		returnData.put("dateList", dateList);
 
 		return Result.success(returnData);
 	}
