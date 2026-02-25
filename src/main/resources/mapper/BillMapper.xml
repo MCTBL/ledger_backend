@@ -20,5 +20,17 @@
         </if>
         ORDER BY `bill_date`
     </select>
+    
+    <select id="getUserBillsInRange">
+    <![CDATA[
+        SELECT 
+            `id`, `user_id`, `category_id`, `amount`, `bill_date`, `bill_description`
+        FROM `bill`
+        WHERE user_id = #{userId}
+        AND `bill_date` >= #{startDate}
+        AND `bill_date` <= last_day(#{endDate})
+    	ORDER BY `bill_date`
+    ]]>
+    </select>
 
 </mapper>

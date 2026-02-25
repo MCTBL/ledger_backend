@@ -22,4 +22,8 @@ public class BillService {
 		return bm.getUserBills(userId, categoryId, year, month);
 	}
 
+	public List<Bill> getOneUserAllBillsInRange(Integer userId, String startDate, String endDate) {
+		return bm.getUserBillsInRange(userId, startDate, endDate);
+	}
+
 }

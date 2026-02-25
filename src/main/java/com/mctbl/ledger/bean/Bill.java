@@ -26,4 +26,8 @@ public class Bill {
 		return this.billDate.toLocalDateTime().toLocalDate().format(DateTimeFormatter.ISO_LOCAL_DATE);
 	}
 
+	public String getBillYM() {
+		return this.billDate.toLocalDateTime().toLocalDate().format(DateTimeFormatter.ISO_LOCAL_DATE).substring(0, 7);
+	}
+
 }
