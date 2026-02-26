@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mctbl.ledger.bean.Bill;
@@ -17,8 +18,8 @@ import com.mctbl.ledger.service.BillService;
 import com.mctbl.ledger.service.CategoryService;
 
 @RestController
-//@RequestMapping("/pie")
-public class PieReportsController {
+@RequestMapping("/data")
+public class ChartReportsController {
 
 	private static final String YEAR = "year";
 
@@ -36,7 +37,7 @@ public class PieReportsController {
 	@Autowired
 	CategoryService cs;
 
-	@GetMapping("/data/pie/{userId}/{year}/{month}")
+	@GetMapping("/pie/{userId}/{year}/{month}")
 	public Result<Map<String, Object>> getPieData(@PathVariable(USER_ID) Integer userId,
 			@PathVariable(YEAR) Integer year, @PathVariable(MONTH) Integer month) {
 		List<Bill> oneUserAllBillsWithYearAndMonth = bs.getOneUserAllBillsWithYearAndMonth(userId, null, year, month);
@@ -58,7 +59,7 @@ public class PieReportsController {
 		return Result.success(returnData);
 	}
 
-	@GetMapping("/data/bar/{userId}/{startDate}~{endDate}")
+	@GetMapping("/bar/{userId}/{startDate}~{endDate}")
 	public Result<Map<String, Object>> getBarData(@PathVariable(USER_ID) Integer userId,
 			@PathVariable(START_DATE) String startDate, @PathVariable(END_DATE) String endDate) {
 		Map<Integer, Category> idCategoryMap = cs.getIdCategoryMap();

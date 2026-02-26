@@ -28,4 +28,8 @@ public class UsersService {
 		return um.getAllUsers().stream().collect(Collectors.toMap(Users::getUserName, c->c));
 	}
 
+	public Users getUserByUserName(String name) {
+		return um.getOneUsersBy(name).orElse(null);
+	}
+
 }

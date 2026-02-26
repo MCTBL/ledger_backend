@@ -30,6 +30,7 @@ extra["springCloudVersion"] = "2025.0.0"
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-jdbc")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.5")
 	implementation("org.springframework.cloud:spring-cloud-starter-gateway-server-webmvc")
 	implementation("io.jsonwebtoken:jjwt:0.12.6")

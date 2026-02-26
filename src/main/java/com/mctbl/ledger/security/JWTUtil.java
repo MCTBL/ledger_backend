@@ -1,0 +1,52 @@
+package com.mctbl.ledger.security;
+
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
+import org.springframework.stereotype.Component;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+
+@Component
+public class JWTUtil {
+
+    @Value("${app.jwt.secret}")
+    private String jwtSecret;
+    @Value("${app.jwt.expiration}")
+    private int jwtExpirationMs;
+
+    public String generateJwtToken(Authentication authentication) {
+        return Jwts.builder()
+        		.subject(authentication.getUsername())
+        		.issuedAt(new Date())
+        		.expiration(new Date(new Date().getTime() + jwtExpirationMs))
+        		.signWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret)))
+        		.compact();
+    }
+
+    public String getUserNameFromJwtToken(String token) {
+    	return Jwts.parser()
+    			.verifyWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret)))
+    			.build()
+    			.parseSignedClaims(token)
+    			.getPayload()
+    			.getSubject();
+    }
+
+    public boolean validateJwtToken(String token) {
+        try {
+            Jwts.parser()
+            .verifyWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret)))
+            .build()
+            .parseSignedClaims(token);
+            return true;
+        } catch (Exception e) {
+            // log error
+        }
+        return false;
+    }
+
+}
