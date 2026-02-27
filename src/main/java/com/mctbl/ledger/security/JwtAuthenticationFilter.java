@@ -11,8 +11,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mctbl.ledger.bean.Result;
+
 import com.mctbl.ledger.service.UserDetailsServiceImpl;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,11 +31,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	@Autowired
     private UserDetailsServiceImpl userDetailsService;
 
+	@Autowired
+	private ObjectMapper objectMapper;
+
 	@Override
 	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws ServletException, IOException {
 		String token = getTokenFromRequest(req);
-        if(StringUtils.hasText(token) && jwtUtil.validateJwtToken(token)){
+        if(StringUtils.hasText(token)){
+        	try {
+        	jwtUtil.validateJwtToken(token);
             String username = jwtUtil.getUserNameFromJwtToken(token);
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
@@ -42,6 +51,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             );
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+        	}catch(ExpiredJwtException e) {
+        		sendErrorResponse(res, e.getMessage());
+        		return;
+        	}
         }
 
         chain.doFilter(req, res);
@@ -53,6 +67,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return bearerToken.substring(7, bearerToken.length());
         }
         return null;
+    }
+
+    private void sendErrorResponse(HttpServletResponse response, String message) throws IOException {
+        Result<String> errorResult = Result.error(message);
+        response.setStatus(errorResult.getCode());
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(objectMapper.writeValueAsString(errorResult));
     }
 
 }

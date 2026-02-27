@@ -18,11 +18,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Users user = us.getUserByUserName(username);
-
 		if(user == null) {
 			throw new UsernameNotFoundException("");
 		}
-
         return new LedgerUser(user);
 	}
 

@@ -2,16 +2,21 @@ package com.mctbl.ledger.security;
 
 import java.util.Date;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JWTUtil {
+
+	private static final Log logger = LogFactory.getLog(JWTUtil.class);
 
     @Value("${app.jwt.secret}")
     private String jwtSecret;
@@ -36,17 +41,16 @@ public class JWTUtil {
     			.getSubject();
     }
 
-    public boolean validateJwtToken(String token) {
+    public void validateJwtToken(String token) {
         try {
             Jwts.parser()
             .verifyWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret)))
             .build()
             .parseSignedClaims(token);
-            return true;
-        } catch (Exception e) {
-            // log error
+        } catch (ExpiredJwtException e) {
+        	logger.error(e);
+        	throw e;
         }
-        return false;
     }
 
 }

@@ -21,7 +21,7 @@ import com.mctbl.ledger.security.LedgerUser;
 
 @RestController
 public class LoginController {
-	
+
 	private static final Log logger = LogFactory.getLog(LoginController.class);
 
 	@Autowired
