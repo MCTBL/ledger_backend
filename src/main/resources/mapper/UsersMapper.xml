@@ -8,7 +8,7 @@
         SELECT 
             `id`, `user_name`, `password_hash`, `role`
         FROM `users`
-        AND `user_name` = #{userName}
+        WHERE `user_name` = #{userName}
     </select>
 
 </mapper>

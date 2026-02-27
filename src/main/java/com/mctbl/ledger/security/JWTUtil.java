@@ -3,7 +3,7 @@ package com.mctbl.ledger.security;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Jwts;
@@ -20,7 +20,7 @@ public class JWTUtil {
 
     public String generateJwtToken(Authentication authentication) {
         return Jwts.builder()
-        		.subject(authentication.getUsername())
+        		.subject(authentication.getName())
         		.issuedAt(new Date())
         		.expiration(new Date(new Date().getTime() + jwtExpirationMs))
         		.signWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret)))
