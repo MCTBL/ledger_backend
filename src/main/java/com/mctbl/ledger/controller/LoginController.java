@@ -3,6 +3,8 @@ package com.mctbl.ledger.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +21,8 @@ import com.mctbl.ledger.security.LedgerUser;
 
 @RestController
 public class LoginController {
+	
+	private static final Log logger = LogFactory.getLog(LoginController.class);
 
 	@Autowired
 	private JWTUtil jwtu;
@@ -26,14 +30,17 @@ public class LoginController {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-
 	@PostMapping("/login")
 	public Result<Map<String, Object>> login(@RequestBody LoginDto dto){
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+		Authentication authentication = null;
+		try {
+			authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 dto.getUsername(), dto.getPassword()));
-
+		}catch (Exception e) {
+			logger.error(e);
+			return Result.error(e.getMessage());
+		}
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
 
         String token = jwtu.generateJwtToken(authentication);
 
