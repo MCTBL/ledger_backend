@@ -37,27 +37,28 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
 			throws ServletException, IOException {
-		String token = getTokenFromRequest(req);
-        if(StringUtils.hasText(token)){
-        	try {
-        	jwtUtil.validateJwtToken(token);
-            String username = jwtUtil.getUserNameFromJwtToken(token);
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+		if(!req.getRequestURI().equals("/login")) {
+			String token = getTokenFromRequest(req);
+			if(StringUtils.hasText(token)){
+				try {
+					jwtUtil.validateJwtToken(token);
+					String username = jwtUtil.getUserNameFromJwtToken(token);
+					UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                userDetails,
-                null,
-                userDetails.getAuthorities()
-            );
-            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+					UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+							userDetails,
+							null,
+							userDetails.getAuthorities()
+							);
+					authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
+					SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-        	}catch(ExpiredJwtException e) {
-        		sendErrorResponse(res, e.getMessage());
-        		return;
-        	}
-        }
-
+				}catch(ExpiredJwtException e) {
+					sendErrorResponse(res, e.getMessage());
+					return;
+				}
+			}
+		}
         chain.doFilter(req, res);
 	}
 

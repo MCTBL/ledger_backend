@@ -53,6 +53,7 @@ public class LoginController {
 
 		if(authentication.getPrincipal() instanceof LedgerUser lu) {
 			map.put("userId", lu.getUserId());
+			map.put("userName", lu.getUsername());
 		}
 		logger.info(dto.getUsername() + " logged in");
 		return Result.success(map);
