@@ -37,7 +37,19 @@ public class Result<T> {
             .build();
     }
 
+    public static <T> Result<T> error(Integer code, T data) {
+        return Result.<T>builder()
+            .code(code)
+            .data(data)
+            .timestamp(System.currentTimeMillis())
+            .build();
+    }
+
     public static <T> Result<T> error(String message) {
         return error(500, message);
+    }
+
+    public static <T> Result<T> error(T data) {
+        return error(500, data);
     }
 }

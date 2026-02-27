@@ -3,7 +3,6 @@ package com.mctbl.ledger;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 
 
 
@@ -12,7 +11,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class LedgerApplication {
 
 	public static void main(String[] args) {
-		ConfigurableApplicationContext run = SpringApplication.run(LedgerApplication.class, args);
+		SpringApplication.run(LedgerApplication.class, args);
 	}
 
 }

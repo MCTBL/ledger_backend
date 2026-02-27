@@ -19,6 +19,8 @@ import com.mctbl.ledger.dto.LoginDto;
 import com.mctbl.ledger.security.JWTUtil;
 import com.mctbl.ledger.security.LedgerUser;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @RestController
 public class LoginController {
 
@@ -31,7 +33,9 @@ public class LoginController {
 	private AuthenticationManager authenticationManager;
 
 	@PostMapping("/login")
-	public Result<Map<String, Object>> login(@RequestBody LoginDto dto){
+	public Result<Map<String, Object>> login(HttpServletRequest request, @RequestBody LoginDto dto){
+		logger.info("Loging from " + request.getRemoteAddr() + " with user:" + dto.getUsername());
+
 		Authentication authentication = null;
 		try {
 			authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -50,7 +54,7 @@ public class LoginController {
 		if(authentication.getPrincipal() instanceof LedgerUser lu) {
 			map.put("userId", lu.getUserId());
 		}
-
+		logger.info(dto.getUsername() + " logged in");
 		return Result.success(map);
 	}
 

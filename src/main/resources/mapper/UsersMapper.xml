@@ -9,6 +9,7 @@
             `id`, `user_name`, `password_hash`, `role`
         FROM `users`
         WHERE `user_name` = #{userName}
+    	LIMIT 1
     </select>
 
 </mapper>

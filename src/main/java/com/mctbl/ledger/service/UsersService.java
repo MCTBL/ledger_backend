@@ -29,7 +29,7 @@ public class UsersService {
 	}
 
 	public Users getUserByUserName(String name) {
-		return um.getOneUsersBy(name).orElse(null);
+		return um.getOneUsersBy(name);
 	}
 
 }
