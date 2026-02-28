@@ -19,6 +19,7 @@ public class Bill {
 	int userId;
 	int categoryId;
 	BigDecimal amount;
+	boolean isConsume;
 	Timestamp billDate;
 	String billDescription;
 

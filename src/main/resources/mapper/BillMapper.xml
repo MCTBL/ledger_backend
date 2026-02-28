@@ -6,7 +6,7 @@
     
     <select id="getUserBills">
         SELECT 
-            `id`, `user_id`, `category_id`, `amount`, `bill_date`, `bill_description`
+            *
         FROM `bill`
         WHERE user_id = #{userId}
         <if test="categoryId != null">
@@ -18,19 +18,23 @@
         <if test="month != null">
         	AND MONTH(`bill_date`) = #{month}
         </if>
+        <if test="isConsume != null">
+        	AND `is_consume` = #{isConsume}
+        </if>
         ORDER BY `bill_date`
     </select>
     
     <select id="getUserBillsInRange">
-    <![CDATA[
         SELECT 
-            `id`, `user_id`, `category_id`, `amount`, `bill_date`, `bill_description`
+            *
         FROM `bill`
         WHERE user_id = #{userId}
-        AND `bill_date` >= #{startDate}
-        AND `bill_date` <= last_day(#{endDate})
+        AND `bill_date` <![CDATA[>=]]> #{startDate}
+        AND `bill_date` <![CDATA[<=]]> last_day(#{endDate})
+        <if test="isConsume != null">
+        	AND `is_consume` = #{isConsume}
+        </if>
     	ORDER BY `bill_date`
-    ]]>
     </select>
 
 </mapper>

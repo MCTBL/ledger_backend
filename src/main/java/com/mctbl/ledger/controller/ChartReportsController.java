@@ -1,5 +1,6 @@
 package com.mctbl.ledger.controller;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,8 @@ public class ChartReportsController {
 	private static final String START_DATE = "startDate";
 
 	private static final String END_DATE = "endDate";
+	
+	private static final String IS_CONSUME = "isConsume";
 
 	@Autowired
 	BillService bs;
@@ -37,10 +40,10 @@ public class ChartReportsController {
 	@Autowired
 	CategoryService cs;
 
-	@GetMapping("/pie/{userId}/{year}/{month}")
+	@GetMapping("/pie/{userId}/{year}/{month}/{isConsume}")
 	public Result<Map<String, Object>> getPieData(@PathVariable(USER_ID) Integer userId,
-			@PathVariable(YEAR) Integer year, @PathVariable(MONTH) Integer month) {
-		List<Bill> oneUserAllBillsWithYearAndMonth = bs.getOneUserAllBillsWithYearAndMonth(userId, null, year, month);
+			@PathVariable(YEAR) Integer year, @PathVariable(MONTH) Integer month, @PathVariable(IS_CONSUME) Integer isConsume) {
+		List<Bill> oneUserAllBillsWithYearAndMonth = bs.getOneUserAllBillsWithYearAndMonth(userId, null, year, month, isConsume);
 		Map<Integer, Category> idCategoryMap = cs.getIdCategoryMap();
 
 		Map<String, Map<String, Object>> dateMap = oneUserAllBillsWithYearAndMonth.stream()
@@ -59,11 +62,11 @@ public class ChartReportsController {
 		return Result.success(returnData);
 	}
 
-	@GetMapping("/bar/{userId}/{startDate}~{endDate}")
+	@GetMapping("/bar/{userId}/{startDate}~{endDate}/{isConsume}")
 	public Result<Map<String, Object>> getBarData(@PathVariable(USER_ID) Integer userId,
-			@PathVariable(START_DATE) String startDate, @PathVariable(END_DATE) String endDate) {
+			@PathVariable(START_DATE) String startDate, @PathVariable(END_DATE) String endDate, @PathVariable(IS_CONSUME) Integer isConsume) {
 		Map<Integer, Category> idCategoryMap = cs.getIdCategoryMap();
-		List<Bill> oneUserAllBillsInRange = bs.getOneUserAllBillsInRange(userId, startDate, endDate);
+		List<Bill> oneUserAllBillsInRange = bs.getOneUserAllBillsInRange(userId, startDate, endDate, isConsume);
 
 		Map<String, Map<Object, Object>> dateMap = oneUserAllBillsInRange.stream().collect(Collectors.groupingBy(Bill::getBillYM)).entrySet().stream().collect(Collectors.toMap(s -> s.getKey(),
 				s -> s.getValue().stream()
@@ -78,6 +81,23 @@ public class ChartReportsController {
 		returnData.put("dateMap", dateMap);
 		returnData.put("categoryNameList", categoryNameList);
 		returnData.put("YMList", YMList);
+		return Result.success(returnData);
+	}
+	
+	@GetMapping("/waterfall/{userId}/{startDate}~{endDate}")
+	public Result<Map<String, Object>> getBarData(
+			@PathVariable(USER_ID) Integer userId,
+			@PathVariable(START_DATE) String startDate,
+			@PathVariable(END_DATE) String endDate){
+		List<Bill> oneUserAllBillsInRange = bs.getOneUserAllBillsInRange(userId, startDate, endDate, null);
+		List<String> YMDList = oneUserAllBillsInRange.stream().map(Bill::getBillYMD).distinct().sorted().collect(Collectors.toList());
+		Map<String, Object> eachDayBill = oneUserAllBillsInRange.stream().collect(Collectors.toMap(Bill::getBillYMD,
+				b -> b.getAmount().doubleValue() * (b.isConsume() ? -1 : 1),
+						(oldAmount, newAmount) -> (double) oldAmount + (double) newAmount));
+		
+		HashMap<String, Object> returnData = new HashMap<String, Object>();
+		returnData.put("eachDayBill", eachDayBill);
+		returnData.put("YMDList", YMDList);
 		return Result.success(returnData);
 	}
 

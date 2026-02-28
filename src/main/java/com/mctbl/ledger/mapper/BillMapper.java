@@ -15,8 +15,12 @@ public interface BillMapper {
 	List<Bill> getUserBills(@Param("userId") Integer userId,
 			@Param("categoryId") Integer categoryId,
 			@Param("year") Integer year,
-			@Param("month") Integer month);
+			@Param("month") Integer month,
+			@Param("isConsume") Integer isConsume);
 
-	List<Bill> getUserBillsInRange(@Param("userId") Integer userId, @Param("startDate") String startDate, @Param("endDate") String endDate);
+	List<Bill> getUserBillsInRange(@Param("userId") Integer userId,
+			@Param("startDate") String startDate,
+			@Param("endDate") String endDate,
+			@Param("isConsume") Integer isConsume);
 
 }
