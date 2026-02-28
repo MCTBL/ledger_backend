@@ -12,6 +12,7 @@ public interface UsersMapper {
 	@Select("SELECT * from `users`")
 	List<Users> getAllUsers();
 
+	@Select("SELECT * FROM `users` WHERE `user_name` = #{userName} LIMIT 1")
 	Users getOneUsersBy(@Param("userName") String userName);
 
 }
