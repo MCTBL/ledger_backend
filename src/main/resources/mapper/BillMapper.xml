@@ -24,13 +24,13 @@
         ORDER BY `bill_date`
     </select>
     
-    <select id="getUserBillsInRange">
+    <select id="getUserBillsInRangeMonth">
         SELECT 
             *
         FROM `bill`
         WHERE user_id = #{userId}
-        AND `bill_date` <![CDATA[>=]]> #{startDate}
-        AND `bill_date` <![CDATA[<=]]> last_day(#{endDate})
+        AND `bill_date` <![CDATA[>=]]> #{startMonth}
+        AND `bill_date` <![CDATA[<=]]> last_day(#{endMonth})
         <if test="isConsume != null">
         	AND `is_consume` = #{isConsume}
         </if>

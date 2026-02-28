@@ -22,8 +22,12 @@ public class BillService {
 		return bm.getUserBills(userId, categoryId, year, month, isConsume);
 	}
 
-	public List<Bill> getOneUserAllBillsInRange(Integer userId, String startDate, String endDate, Integer isConsume) {
-		return bm.getUserBillsInRange(userId, startDate, endDate, isConsume);
+	public List<Bill> getOneUserAllBillsInRangeMonth(Integer userId, String startMonth, String endMonth, Integer isConsume) {
+		return bm.getUserBillsInRangeMonth(userId, startMonth, endMonth, isConsume);
+	}
+	
+	public List<Bill> getOneUserAllBillsInRangeDate(Integer userId, String startDate, String endDate) {
+		return bm.getUserBillsInRangeDate(userId, startDate, endDate);
 	}
 
 }

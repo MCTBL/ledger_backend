@@ -18,9 +18,14 @@ public interface BillMapper {
 			@Param("month") Integer month,
 			@Param("isConsume") Integer isConsume);
 
-	List<Bill> getUserBillsInRange(@Param("userId") Integer userId,
-			@Param("startDate") String startDate,
-			@Param("endDate") String endDate,
+	List<Bill> getUserBillsInRangeMonth(@Param("userId") Integer userId,
+			@Param("startMonth") String startMonth,
+			@Param("endMonth") String endMonth,
 			@Param("isConsume") Integer isConsume);
+	
+	@Select("SELECT * FROM `bill` WHERE user_id = #{userId} AND `bill_date` >= #{startDate} AND `bill_date` <= #{endDate} ORDER BY `bill_date`")
+	List<Bill> getUserBillsInRangeDate(@Param("userId") Integer userId,
+			@Param("startDate") String startDate,
+			@Param("endDate") String endDate);
 
 }

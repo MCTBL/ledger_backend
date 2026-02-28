@@ -66,7 +66,7 @@ public class ChartReportsController {
 	public Result<Map<String, Object>> getBarData(@PathVariable(USER_ID) Integer userId,
 			@PathVariable(START_DATE) String startDate, @PathVariable(END_DATE) String endDate, @PathVariable(IS_CONSUME) Integer isConsume) {
 		Map<Integer, Category> idCategoryMap = cs.getIdCategoryMap();
-		List<Bill> oneUserAllBillsInRange = bs.getOneUserAllBillsInRange(userId, startDate, endDate, isConsume);
+		List<Bill> oneUserAllBillsInRange = bs.getOneUserAllBillsInRangeMonth(userId, startDate, endDate, isConsume);
 
 		Map<String, Map<Object, Object>> dateMap = oneUserAllBillsInRange.stream().collect(Collectors.groupingBy(Bill::getBillYM)).entrySet().stream().collect(Collectors.toMap(s -> s.getKey(),
 				s -> s.getValue().stream()
@@ -89,11 +89,16 @@ public class ChartReportsController {
 			@PathVariable(USER_ID) Integer userId,
 			@PathVariable(START_DATE) String startDate,
 			@PathVariable(END_DATE) String endDate){
-		List<Bill> oneUserAllBillsInRange = bs.getOneUserAllBillsInRange(userId, startDate, endDate, null);
+		List<Bill> oneUserAllBillsInRange = bs.getOneUserAllBillsInRangeDate(userId, startDate, endDate);
 		List<String> YMDList = oneUserAllBillsInRange.stream().map(Bill::getBillYMD).distinct().sorted().collect(Collectors.toList());
-		Map<String, Object> eachDayBill = oneUserAllBillsInRange.stream().collect(Collectors.toMap(Bill::getBillYMD,
-				b -> b.getAmount().doubleValue() * (b.isConsume() ? -1 : 1),
-						(oldAmount, newAmount) -> (double) oldAmount + (double) newAmount));
+		Map<String, Object> eachDayBill = oneUserAllBillsInRange.stream().collect(Collectors.groupingBy(Bill::getBillYMD,
+				Collectors.teeing(            // 收入：isConsume = false，求和
+			            Collectors.filtering(b -> !b.isConsume(), 
+			                    Collectors.summingDouble(b -> b.getAmount().doubleValue())),
+			                Collectors.filtering(b -> b.isConsume(), 
+			                    Collectors.summingDouble(b -> -b.getAmount().doubleValue())),
+			                (income, expense) -> new double[]{income, expense})));
+		
 		
 		HashMap<String, Object> returnData = new HashMap<String, Object>();
 		returnData.put("eachDayBill", eachDayBill);
