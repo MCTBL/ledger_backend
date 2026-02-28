@@ -22,7 +22,7 @@ public interface BillMapper {
 			@Param("startMonth") String startMonth,
 			@Param("endMonth") String endMonth,
 			@Param("isConsume") Integer isConsume);
-	
+
 	@Select("SELECT * FROM `bill` WHERE user_id = #{userId} AND `bill_date` >= #{startDate} AND `bill_date` <= #{endDate} ORDER BY `bill_date`")
 	List<Bill> getUserBillsInRangeDate(@Param("userId") Integer userId,
 			@Param("startDate") String startDate,

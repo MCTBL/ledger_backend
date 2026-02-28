@@ -25,7 +25,7 @@ public class BillService {
 	public List<Bill> getOneUserAllBillsInRangeMonth(Integer userId, String startMonth, String endMonth, Integer isConsume) {
 		return bm.getUserBillsInRangeMonth(userId, startMonth, endMonth, isConsume);
 	}
-	
+
 	public List<Bill> getOneUserAllBillsInRangeDate(Integer userId, String startDate, String endDate) {
 		return bm.getUserBillsInRangeDate(userId, startDate, endDate);
 	}

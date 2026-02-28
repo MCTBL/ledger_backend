@@ -1,6 +1,5 @@
 package com.mctbl.ledger.controller;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +30,7 @@ public class ChartReportsController {
 	private static final String START_DATE = "startDate";
 
 	private static final String END_DATE = "endDate";
-	
+
 	private static final String IS_CONSUME = "isConsume";
 
 	@Autowired
@@ -83,7 +82,7 @@ public class ChartReportsController {
 		returnData.put("YMList", YMList);
 		return Result.success(returnData);
 	}
-	
+
 	@GetMapping("/waterfall/{userId}/{startDate}~{endDate}")
 	public Result<Map<String, Object>> getBarData(
 			@PathVariable(USER_ID) Integer userId,
@@ -93,13 +92,13 @@ public class ChartReportsController {
 		List<String> YMDList = oneUserAllBillsInRange.stream().map(Bill::getBillYMD).distinct().sorted().collect(Collectors.toList());
 		Map<String, Object> eachDayBill = oneUserAllBillsInRange.stream().collect(Collectors.groupingBy(Bill::getBillYMD,
 				Collectors.teeing(            // 收入：isConsume = false，求和
-			            Collectors.filtering(b -> !b.isConsume(), 
+			            Collectors.filtering(b -> !b.isConsume(),
 			                    Collectors.summingDouble(b -> b.getAmount().doubleValue())),
-			                Collectors.filtering(b -> b.isConsume(), 
+			                Collectors.filtering(b -> b.isConsume(),
 			                    Collectors.summingDouble(b -> -b.getAmount().doubleValue())),
 			                (income, expense) -> new double[]{income, expense})));
-		
-		
+
+
 		HashMap<String, Object> returnData = new HashMap<String, Object>();
 		returnData.put("eachDayBill", eachDayBill);
 		returnData.put("YMDList", YMDList);
