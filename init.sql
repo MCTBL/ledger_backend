@@ -30,9 +30,13 @@ INSERT INTO `users` VALUES(NULL, "MCTBL", "$2a$10$MO0HSflwRFgF6/q1Y7soVOQ.H.ZEb2
 INSERT INTO `users` VALUES(NULL, "test",  "$2a$10$k2627R/BOMXlAUFZRZRmJ.sMQa6u77XL7RvAcuGief9G4w.6CGbsi", 0);
 
 INSERT INTO `category` VALUES(NULL, "游戏", "买游戏");
-INSERT INTO `category` VALUES(NULL, "美食", "吃饭");
-INSERT INTO `category` VALUES(NULL, "交通", "坐车");
+INSERT INTO `category` VALUES(NULL, "美食", NULL);
+INSERT INTO `category` VALUES(NULL, "交通", NULL);
 INSERT INTO `category` VALUES(NULL, "工资", NULL);
+INSERT INTO `category` VALUES(NULL, "红包", NULL);
+INSERT INTO `category` VALUES(NULL, "娱乐", NULL);
+INSERT INTO `category` VALUES(NULL, "购物", NULL);
+
 
 INSERT INTO `bill` VALUES(NULL,1,1,99.00,1,"2025-12-01 12:00:00","买了个游戏");
 INSERT INTO `bill` VALUES(NULL,1,2,20.00,1,"2025-12-01 18:00:00","吃饭");
