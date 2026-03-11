@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mctbl.ledger.bean.Category;
 import com.mctbl.ledger.mapper.CategoryMapper;
@@ -26,6 +27,15 @@ public class CategoryService {
 
 	public Map<String, Category> getNameCategoryMap(){
 		return cm.getAllCategory().stream().collect(Collectors.toMap(Category::getCategoryName, c -> c));
+	}
+
+	public Category getCategoryByName(String name) {
+		return cm.getCategoryByName(name);
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	public void createNewCategory(Category newCate) {
+		cm.addNewCategory(newCate);
 	}
 
 }

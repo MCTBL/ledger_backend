@@ -18,6 +18,22 @@ public class BillService {
 		return bm.getAllBills();
 	}
 
+	public Bill getBillsById(Integer billsId) {
+		return bm.getBillsById(billsId);
+	}
+
+	public void addNewBills(Bill newBill) {
+		bm.addNewBills(newBill);
+	}
+
+	public void updateBills(Bill newBill) {
+		bm.updateBills(newBill);
+	}
+
+	public void deleteBills(Bill newBill) {
+		bm.deleteBills(newBill);
+	}
+
 	public List<Bill> getOneUserAllBillsWithYearAndMonth(Integer userId, Integer categoryId, Integer year, Integer month, Integer isConsume) {
 		return bm.getUserBills(userId, categoryId, year, month, isConsume);
 	}

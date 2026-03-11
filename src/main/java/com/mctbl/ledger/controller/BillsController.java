@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +25,10 @@ public class BillsController {
 
 	private static final String USER_ID = "userId";
 
+	private static final String BILLS_ID = "billsId";
+
+	private static final String CATEGORY_NAME = "categoryName";
+
 	@Autowired
 	BillService bs;
 
@@ -33,13 +40,71 @@ public class BillsController {
 		List<Category> allCategory = cs.getAllCategory();
 		List<Bill> oneUserAllBills = bs.getOneUserAllBillsWithYearAndMonth(userId, null, null, null, null);
 
-//		List<List<Object>> temp = bs.getOneUserAllBillsWithYearAndMonth(userId, null, null, null, null).stream()
-//			.map(b -> Arrays.asList(new Object[] {b.getId(), b.getBillDate(), idCategoryMap.get(b.getCategoryId()), b.getAmount().doubleValue() * (b.isConsume() ? 1 : -1), b.getBillDescription()})).collect(Collectors.toList());
-
 		HashMap<String, Object> returnData = new HashMap<String, Object>();
 		returnData.put("bills", oneUserAllBills);
 		returnData.put("categories", allCategory);
 		return Result.success(returnData);
+	}
+
+	@DeleteMapping("/delete/{userId}/{billsId}")
+	public Result<String> deleteOneUserBills(@PathVariable(USER_ID) Integer userId, @PathVariable(BILLS_ID) Integer billsId){
+		Bill temp = bs.getBillsById(billsId);
+		if(temp == null || temp.getUserId() != userId) {
+			return Result.error("错误的用户ID与账单ID");
+		}else {
+			try {
+			bs.deleteBills(temp);
+			return Result.success();
+			}catch(Exception e) {
+				return Result.error("出问题了" + e.toString());
+			}
+		}
+	}
+
+	@PostMapping("/update/{categoryName}")
+	public Result<String> updateOneUserBills(@RequestBody Bill newBill, @PathVariable(CATEGORY_NAME) String categoryName){
+		if(categoryName != null && categoryName.length() != 0) {
+			try {
+				Category cat = cs.getCategoryByName(categoryName);
+				if(cat != null) {
+					newBill.setCategoryId(cat.getId());
+				}else {
+					cs.createNewCategory(Category.builder().categoryName(categoryName).build());
+
+					newBill.setCategoryId(cs.getCategoryByName(categoryName).getId());
+				}
+
+				bs.updateBills(newBill);
+				return Result.success();
+			}catch(Exception e) {
+				return Result.error("出问题了" + e.toString());
+			}
+		}else {
+			return Result.error("categoryName出问题了");
+		}
+	}
+
+	@PostMapping("/add/{categoryName}")
+	public Result<String> addNewBillsForUser(@RequestBody Bill newBill, @PathVariable(CATEGORY_NAME) String categoryName){
+		if(categoryName != null && categoryName.length() != 0) {
+			try {
+			Category cat = cs.getCategoryByName(categoryName);
+			if(cat != null) {
+				newBill.setCategoryId(cat.getId());
+			}else {
+				cs.createNewCategory(Category.builder().categoryName(categoryName).build());
+
+				newBill.setCategoryId(cs.getCategoryByName(categoryName).getId());
+			}
+			bs.addNewBills(newBill);
+			return Result.success();
+
+			}catch(Exception e) {
+				return Result.error("出问题了" + e.toString());
+			}
+		}else {
+			return Result.error("categoryName出问题了");
+		}
 	}
 
 }
